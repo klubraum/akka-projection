@@ -1,5 +1,4 @@
 import akka.projections.Dependencies
-import com.geirsson.CiReleasePlugin
 import sbtdynver.DynVerPlugin.autoImport._
 import com.lightbend.paradox.projectinfo.ParadoxProjectInfoPluginKeys._
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport._
@@ -7,19 +6,21 @@ import sbt.Keys._
 import sbt._
 import sbt.plugins.JvmPlugin
 import com.typesafe.tools.mima.plugin.MimaKeys._
-import xerial.sbt.Sonatype.autoImport.sonatypeProfileName
+import sbtghpackages.GitHubPackagesKeys._
 
 object Common extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def requires = JvmPlugin && CiReleasePlugin
+  override def requires = JvmPlugin
 
   override def globalSettings =
     Seq(
       organization := "com.lightbend.akka",
       organizationName := "Lightbend Inc.",
       organizationHomepage := Some(url("https://www.lightbend.com/")),
+      githubOwner := "klubraum",
+      githubRepository := "akka-projection",
       startYear := Some(2020),
       homepage := Some(url("https://akka.io")),
       // apiURL defined in projectSettings because version.value is not correct here
@@ -87,7 +88,6 @@ object Common extends AutoPlugin {
               .getOrElse(throw new Error("Unable to determine previous version")))
 
       }
-    },
-    sonatypeProfileName := "com.lightbend")
+    })
 
 }

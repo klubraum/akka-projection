@@ -76,38 +76,6 @@ jobs:
       - name: Compile all code with fatal warnings for Java 11, Scala 2.12, Scala 2.13 and Scala 3.1
         run: sbt "clean ; +IntegrationTest/compile"
 
-  check-docs:
-    name: Check Docs
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        # https://github.com/actions/checkout/releases
-        # v3.3.0
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
-        with:
-          fetch-depth: 0
-
-      - name: Checkout GitHub merge
-        if: github.event.pull_request
-        run: |-
-          git fetch origin pull/${{ github.event.pull_request.number }}/merge:scratch
-          git checkout scratch
-
-      - name: Cache Coursier cache
-        # https://github.com/coursier/cache-action/releases
-        # v6.4.3
-        uses: coursier/cache-action@d1039466d0812d6370649b9afb02bbf5f646bacf
-
-      - name: Set up JDK 11
-        # https://github.com/coursier/setup-action/releases
-        # v1.3.0
-        uses: coursier/setup-action@70323223454ac2a9eb2de46f389b4d045cbcdea5
-        with:
-          jvm: temurin:1.11
-
-      - name: Create all API docs for artifacts/website and all reference docs
-        run: sbt "unidoc; docs/paradox; akka-distributed-cluster-docs/paradox"
-
   check-samples:
     name: Check Sample Projects
     runs-on: ubuntu-22.04
