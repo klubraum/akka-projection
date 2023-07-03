@@ -49,6 +49,8 @@ jobs:
 
       - name: Run tests with default Scala and Java ${{ matrix.jdkVersion }}
         run: sbt "test" ${{ matrix.extraOpts }}
+        env:
+          GITHUB_TOKEN: not-needed
 
       - name: Print logs on failure
         if: ${{ failure() }}

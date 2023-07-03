@@ -52,6 +52,7 @@ jobs:
         run: sbt "akka-projection-grpc-tests/It/test" ${{ matrix.extraOpts }}
         env: # Disable Ryuk resource reaper since we always spin up fresh VMs
           TESTCONTAINERS_RYUK_DISABLED: true
+          GITHUB_TOKEN: not-needed
 
       - name: Print logs on failure
         if: ${{ failure() }}

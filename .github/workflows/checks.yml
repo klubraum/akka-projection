@@ -44,6 +44,8 @@ jobs:
 
       - name: Code style check and binary-compatibility check
         run: sbt "verifyCodeStyle; mimaReportBinaryIssues"
+        env:
+          GITHUB_TOKEN: not-needed
 
   check-code-compilation:
     name: Check Code Compilation
@@ -76,6 +78,8 @@ jobs:
 
       - name: Compile all code with fatal warnings for Java 11, Scala 2.12, Scala 2.13 and Scala 3.1
         run: sbt "clean ; +IntegrationTest/compile"
+        env:
+          GITHUB_TOKEN: not-needed
 
   check-samples:
     name: Check Sample Projects
@@ -114,16 +118,22 @@ jobs:
       - name: Publish artifacts locally
         run: |-
           sbt "publishLocal; publishM2"
+        env:
+          GITHUB_TOKEN: not-needed
 
       - name: Compile Scala Projection gRPC sample Shopping Cart
         run: |-
           cd samples/grpc/shopping-cart-service-scala
           sbt test -Dakka-projection.version=`cat ~/.version`
+        env:
+          GITHUB_TOKEN: not-needed
 
       - name: Compile Scala Projection gRPC sample Analytics
         run: |-
           cd samples/grpc/shopping-analytics-service-scala
           sbt compile -Dakka-projection.version=`cat ~/.version`
+        env:
+          GITHUB_TOKEN: not-needed
 
       - name: Compile Java Projection gRPC sample Shopping Cart
         run: |-
@@ -139,6 +149,8 @@ jobs:
         run: |-
           cd samples/replicated/shopping-cart-service-scala
           sbt compile -Dakka-projection.version=`cat ~/.version`
+        env:
+          GITHUB_TOKEN: not-needed
 
       - name: Compile Java Replicated Event Sourcing over gRPC sample Shopping Cart
         run: |-
